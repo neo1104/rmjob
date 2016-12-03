@@ -1,1 +1,1 @@
-#### Usage: python rmjob.py <path to configure file>
+##### Usage: python rmjob.py path_to_configure_file
