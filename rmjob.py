@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import sys
 import os
 import re
 import time
+
 
 # 读取文件内容
 def ProcessConfigure(con_file):
@@ -11,7 +14,7 @@ def ProcessConfigure(con_file):
         if line.startswith('#'):     #跳过注释行
             continue
         line = line.strip('\t\r\n')
-        l = line.split(maxsplit=2)
+        l = line.split()
         #填充job信息
         job = dict()
         job['path'] = l[0]
@@ -31,6 +34,7 @@ def ProcessConfigure(con_file):
             job['time'] = int(l[2][0:-1])                   #秒
         jobs.append(job)
     fs.close()
+    print(jobs)
     return jobs
 
 # 开始处理job
@@ -42,7 +46,7 @@ def Run(jobs):
         # 读取指定路径内的指定的文件名，并判断修改时间，如果修改时间符合，则进行删除操作
         files = os.listdir(job['path'])
         for file in files:
-            if not prog.fullmatch(file):
+            if not prog.match(file):
                 continue
             # 如果文件模式匹配，则获取对应文件的修改时间
             f = os.path.join(job['path'], file)
@@ -60,13 +64,13 @@ def Run(jobs):
 if __name__ == '__main__':
     # 判断脚本命令使用方式是否正确
     if len(sys.argv) != 2:
-        print("use: rmjob <rm job configure file>")
+        print('use: rmjob <rm job configure file>')
         exit()
     conf_file = sys.argv[1]
 
     # 判断指定的配置文件是否存在
     if not os.path.isfile(conf_file):
-        print("%s not exist" % conf_file)
+        print('%s not exist' % conf_file)
         exit()
     jobs = ProcessConfigure(conf_file)
     Run(jobs)
