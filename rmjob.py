@@ -13,6 +13,8 @@ def ProcessConfigure(con_file):
     for line in fs.readlines(256):
         if line.startswith('#'):     #跳过注释行
             continue
+        if len(line) <= 0:           #跳过空行和注释行
+            continue
         line = line.strip('\t\r\n')
         l = line.split()
         #填充job信息
@@ -34,7 +36,6 @@ def ProcessConfigure(con_file):
             job['time'] = int(l[2][0:-1])                   #秒
         jobs.append(job)
     fs.close()
-    print(jobs)
     return jobs
 
 # 开始处理job
