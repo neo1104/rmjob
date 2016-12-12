@@ -22,8 +22,8 @@ def ProcessConfigure(con_file):
         job['path'] = l[0]
         job['pattern'] = l[1]
         # 解析时间跨度
-        if not re.match(r'[1-9]+[Dd|Hh|Mm|Ss]$', l[2]):
-            print('[%s] confiure error' % job['path'])
+        if not re.match(r'[0-9]+[Dd|Hh|Mm|Ss]$', l[2]):
+            print('[%s] configure error' % job['path'])
             exit()
         t = l[2][-1]
         if t == 'd' or t == 'D':
